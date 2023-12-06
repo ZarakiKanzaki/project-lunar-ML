@@ -23,7 +23,7 @@ card = name new_line
        [loyalty new_line]
        [defence new_line];
 
-effects = "effects:" new_line
+effects = "effects: " new_line
           {base_effect} new_line; (*to be defined*)
 
 power = "power: " ({number} | "*" | "*+" {number});
