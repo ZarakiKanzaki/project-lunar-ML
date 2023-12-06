@@ -23,15 +23,15 @@ card = name new_line
        [loyalty new_line]
        [defence new_line];
 
-effect = (*to be defined*);
+effects = (*to be defined*);
 
 power = "power: " ({number} | "*" | "*+" {number});
 toughness = "toughness: " ({number} | "*" | "*+" {number});
 loyalty = "loyalty: " {number};
 defence = "defence: " {number};
 
-subtype_statement = "subtype: " ( {artifact_types} | {enchantment_types} | {land_types} | {planeswalker_types} | {spell_types} |
-                                 {creature_types} | {planar_types} | {dungeon_types} );
+subtype_statement = "subtype: " ( {artifact_types} | {enchantment_types} | {land_types} | {planeswalker_types} |
+                                  {spell_types} | {creature_types} | {planar_types} | {dungeon_types} );
                     (*NOTE: remember that the subtype MUST match with the card type expressed above, can be also a combination of these types*)
 ```
 <details>
