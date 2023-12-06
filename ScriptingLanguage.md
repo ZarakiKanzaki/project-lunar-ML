@@ -7,6 +7,7 @@ The main goal is to keep it the easiest and the most readable possible. So we co
  Always refer to [Extended Backus Naur Form](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) to read this grammar.
  
 ```ebnf
+
 card = name new_line
        mana_cost new_line
        layout new_line (*In case the layout is multiple_faces some other attributes will not be displayed*)
@@ -20,9 +21,9 @@ card = name new_line
        [power new_line]
        [toughness new_line]
        [loyalty new_line]
-       [defence new_line]
+       [defence new_line];
 
-effect = (*to be defined*)
+effect = (*to be defined*);
 
 power = "power: " ({number} | "*" | "*+" {number});
 toughness = "toughness: " ({number} | "*" | "*+" {number});
@@ -109,10 +110,11 @@ planar_types = "the_abyss" | "alara" | "alfava_metraxis" | "amonkhet" | "androza
 dungeon_types = "undercity";
 
 battle_types = "siege";
+
 ```
 </details>
 
-```
+```ebnf
 card_type_statement = "card_type: " {card_type};
 card_type = "artifact"| "battle" | "conspiracy" | "creature" | "dungeon" | "enchantment" | "instant" | "land" | "phenomenon" | "plane" |
             "planeswalker" | "scheme" | "sorcery" | "tribal" | "vanguard";
