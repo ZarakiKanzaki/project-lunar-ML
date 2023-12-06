@@ -30,24 +30,24 @@ toughness = "toughness: " ({number} | "*" | "*+" {number});
 loyalty = "loyalty: " {number};
 defence = "defence: " {number};
 
-subtype_statement = "subtype: " ( {artifact_types} | {enchantment_types} | {land_types} | {planeswalker_types} |
-                                  {spell_types} | {creature_types} | {planar_types} | {dungeon_types} );
+subtype_statement = "subtype: " ( {artifact_type} | {enchantment_type} | {land_type} | {planeswalker_type} |
+                                  {spell_type} | {creature_type} | {planar_type} | {dungeon_type} );
                     (*NOTE: remember that the subtype MUST match with the card type expressed above, can be also a combination of these types*)
 ```
 <details>
   <summary>Expand to find all subtypes listed above</summary>
 
 ```ebnf
-artifact_types = "attraction" | "blood" | "clue" | "contraption" | "equipment" | "food" | "fortification" |
+artifact_type  = "attraction" | "blood" | "clue" | "contraption" | "equipment" | "food" | "fortification" |
                  "gold" | "incubator" | "map" | "powerstone" | "treasure" | "vehicle";
 
-enchantment_types = "aura" | "background" | "cartouche" | "class" | "curse" | "role" |
+enchantment_type  = "aura" | "background" | "cartouche" | "class" | "curse" | "role" |
                     "rune" | "saga" | "shard" | "shrine";
 
 land_types = "desert" | "forest" | "gate" | "island" | "lair" | "locus" | "mine" |
              "mountain" | "plains" | "power_plant" | "sphere" | "swamp" | "tower" | "urza_s";
 
-planeswalker_types = "ajani" | "aminatou" | "angrath" | "arlinn" | "ashiok" | "bahamut" | "basri" | "bolas" |
+planeswalker_type  = "ajani" | "aminatou" | "angrath" | "arlinn" | "ashiok" | "bahamut" | "basri" | "bolas" |
                      "calix" | "chandra" | "comet" | "dack" | "dakkon" | "daretti" | "davriel" | "dihada" | "domri" |
                      "dovin" | "ellywick" | "elminster" | "elspeth" | "estrid" | "freyalise" | "garruk" | "gideon" |
                      "grist" | "guff" | "huatli" | "jace" | "jared" | "jaya" | "jeska" | "kaito" | "karn" | "kasmina" |
@@ -57,9 +57,9 @@ planeswalker_types = "ajani" | "aminatou" | "angrath" | "arlinn" | "ashiok" | "b
                      "tezzeret" | "tibalt" | "tyvar" | "ugin" | "urza" | "venser" | "vivien" | "vraska" | "vronos" |
                      "will" | "windgrace" | "wrenn" | "xenagos" | "yanggu" | "yanling" | "zariel";
 
-spell_types = "adventure" | "arcane" | "lesson" | "trap";
+spell_type  = "adventure" | "arcane" | "lesson" | "trap";
 
-creature_types = "advisor" | "aetherborn" | "alien" | "ally" | "angel" | "antelope" | "ape" | "archer" |
+creature_type  = "advisor" | "aetherborn" | "alien" | "ally" | "angel" | "antelope" | "ape" | "archer" |
                  "archon" | "army" | "artificer" | "assassin" | "assembly-worker" | "astartes" | "atog" |
                  "aurochs" | "avatar" | "azra" | "badger" | "balloon" | "barbarian" | "bard" | "basilisk" |
                  "bat" | "bear" | "beast" | "beeble" | "beholder" | "berserker" | "bird" | "blinkmoth" | "boar" |
@@ -94,7 +94,7 @@ creature_types = "advisor" | "aetherborn" | "alien" | "ally" | "angel" | "antelo
                  "warlock" | "warrior" | "weird" | "werewolf" | "whale" | "wizard" | "wolf" | "wolverine" |
                  "wombat" | "worm" | "wraith" | "wurm" | "yeti" | "zombie" | "zubera";
 
-planar_types = "the_abyss" | "alara" | "alfava_metraxis" | "amonkhet" | "androzani_minor" | "antausia" |
+planar_type  = "the_abyss" | "alara" | "alfava_metraxis" | "amonkhet" | "androzani_minor" | "antausia" |
                "apalapucia" | "arcavios" | "arkhos" | "azgol" | "belenon" | "bolas_s_meditation realm" |
                "capenna" | "cridhe" | "the_dalek_asylum" | "darillium" | "dominaria" | "earth" | "echoir" |
                "eldraine" | "equilor" | "ergamon" | "fabacin" | "fiora" | "gallifrey" | "gargantikar" |
@@ -107,9 +107,9 @@ planar_types = "the_abyss" | "alara" | "alfava_metraxis" | "amonkhet" | "androza
                "tarkir" | "theros" | "time" | "trenzalore" | "ulgrotha" | "unknown planet" | "valla" |
                "vryn" | "wildfire" | "xerex" | "zendikar" | "zhalfir";
 
-dungeon_types = "undercity";
+dungeon_type  = "undercity";
 
-battle_types = "siege";
+battle_type  = "siege";
 
 ```
 </details>
