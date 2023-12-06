@@ -23,7 +23,8 @@ card = name new_line
        [loyalty new_line]
        [defence new_line];
 
-effects = (*to be defined*);
+effects = "effects:" new_line
+          {base_effect} new_line; (*to be defined*)
 
 power = "power: " ({number} | "*" | "*+" {number});
 toughness = "toughness: " ({number} | "*" | "*+" {number});
