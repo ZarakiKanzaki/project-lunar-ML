@@ -1,147 +1,164 @@
-### The scripting language
+### The scripting language (WIP), ver 0.0.1
 
-The following paragraph is the new version of the EBNF grammar that will follow the idea of a scripting language for the Rule Engine. (Currently WIP)
+The Idea of designing a Scripting Language is to help human to write code for the rule egine. As discussed in this [Thread](https://discord.com/channels/267367946135928833/1179339633566425188), having a DSL (Domain Specific Language) could benefit in the long run.
+So this idea cuould benefit every Rule Engine that allow scripting languages.
 
-#### Activated Ability
-From the comprehensive rules:
+The main goal is to keep it the easiest and the most readable possible. So we could say that a language that is close to yaml could be the best choice.
+ Always refer to [Extended Backus Naur Form](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) to read this grammar.
+ 
+```ebnf
+card = name new_line
+       mana_cost new_line
+       layout new_line (*In case the layout is multiple_faces some other attributes will not be displayed*)
+       supertype_statement new_line
+       card_type_statement new_line
+       subtype_statement new_line
+       [effects]
+       [oracle_text new_line]
+       [flavour_text new_line]
+       [faces new_line]
+       [power new_line]
+       [toughness new_line]
+       [loyalty new_line]
+       [defence new_line]
 
+effect = (*to be defined*)
 
-> **602.** Activating Activated Abilities
->
-> **602.1.** Activated abilities have a cost and an effect. They are written as `[Cost]: [Effect.] [Activation instructions (if any).]`
->
->  1. **602.1a** The activation cost is everything before the colon (:). An ability’s activation cost must be paid by the player who is activating it.
-Example: The activation cost of an ability that reads “{2}, {T}: You gain 1 life” is two mana of any type plus tapping the permanent that has the ability.
->
->  2. **602.1b** Some text after the colon of an activated ability states instructions that must be followed while activating that ability. Such text may state which players can activate that ability, may restrict when a player can activate the ability, or may define some aspect of the activation cost. This text is not part of the ability’s effect. It functions at all times. If an activated ability has any activation instructions, they appear last, after the ability’s effect.
->
->  3. **602.1c** An activated ability is the only kind of ability that can be activated. If an object or rule refers to activating an ability without specifying what kind, it must be referring to an activated ability.
->
->  4. **602.1d** Previously, the action of using an activated ability was referred to on cards as “playing” that ability. Cards that were printed with that text have received errata in the Oracle card reference so they now refer to “activating” that ability.
->
-> **602.2.** To activate an ability is to put it onto the stack and pay its costs, so that it will eventually resolve and have its effect. Only an object’s controller (or its owner, if it doesn’t have a controller) can activate its activated ability unless the object specifically says otherwise. Activating an ability follows the steps listed below, in order. If, at any point during the activation of an ability, a player is unable to comply with any of those steps, the activation is illegal; the game returns to the moment before that ability started to be activated (see rule 728, “Handling Illegal Actions”). Announcements and payments can’t be altered after they’ve been made.
->
-> 1. **602.2a** The player announces that they are activating the ability. If an activated ability is being activated from a hidden zone, the card that has that ability is revealed. That ability is created on the stack as an object that’s not a card. It becomes the topmost object on the stack. It has the text of the ability that created it, and no other characteristics. Its controller is the player who activated the ability. The ability remains on the stack until it’s countered, it resolves, or an effect moves it elsewhere.
->
-> 2. **602.2b** The remainder of the process for activating an ability is identical to the process for casting a spell listed in rules 601.2b–i. Those rules apply to activating an ability just as they apply to casting a spell. An activated ability’s analog to a spell’s mana cost (as referenced in rule 601.2f) is its activation cost.
->
-> **602.3.** Some abilities specify that one of their controller’s opponents does something the controller would normally do while it’s being activated, such as choose a mode or choose targets. In these cases, the opponent does so when the ability’s controller normally would do so.
->
-> 1. **602.3a** If there is more than one opponent who could make such a choice, the ability’s controller decides which of those opponents will make the choice.
->
-> 2. **602.3b** If the ability instructs its controller and another player to do something at the same time as the ability is being activated, the ability’s controller goes first, then the other player. This is an exception to rule 101.4.
->
-> **602.4.** Activating an ability that alters costs won’t affect spells and abilities that are already on the stack.
->
-> **602.5.** A player can’t begin to activate an ability that’s prohibited from being activated.
->
-> 1. **602.5a** A creature’s activated ability with the tap symbol ({T}) or the untap symbol ({Q}) in its activation cost can’t be activated unless the creature has been under its controller’s control since the start of their most recent turn. Ignore this rule for creatures with haste (see rule 702.10).
->
-> 2. **602.5b** If an activated ability has a restriction on its use (for example, “Activate only once each turn”), the restriction continues to apply to that object even if its controller changes.
->
-> 3. **602.5c** If an object acquires an activated ability with a restriction on its use from another object, that restriction applies only to that ability as acquired from that object. It doesn’t apply to other, identically worded abilities.
->
-> 4. **602.5d** Activated abilities that read “Activate only as a sorcery” mean the player must follow the timing rules for casting a sorcery spell, though the ability isn’t actually a sorcery. The player doesn’t actually need to have a sorcery card that they could cast.
->
-> 5. **602.5e** Activated abilities that read “Activate only as an instant” mean the player must follow the timing rules for casting an instant spell, though the ability isn’t actually an instant. The player doesn’t actually need to have an instant card that they could cast.
+power = "power: " ({number} | "*" | "*+" {number});
+toughness = "toughness: " ({number} | "*" | "*+" {number});
+loyalty = "loyalty: " {number};
+defence = "defence: " {number};
 
+subtype_statement = "subtype: " ( {artifact_types} | {enchantment_types} | {land_types} | {planeswalker_types} | {spell_types} |
+                                 {creature_types} | {planar_types} | {dungeon_types} );
+                    (*NOTE: remember that the subtype MUST match with the card type expressed above, can be also a combination of these types*)
+```
+<details>
+  <summary>Expand to find all subtypes listed above</summary>
 
 ```ebnf
-activated_ability = "activated_ability(" {activation_cost} "," {effect} ","  [activation_instruction] ")";
+artifact_types = "attraction" | "blood" | "clue" | "contraption" | "equipment" | "food" | "fortification" |
+                 "gold" | "incubator" | "map" | "powerstone" | "treasure" | "vehicle";
 
-effect = {discard_effect} | {sacrifice_effect} | {untap_effect} | {tap_effect};
+enchantment_types = "aura" | "background" | "cartouche" | "class" | "curse" | "role" |
+                    "rune" | "saga" | "shard" | "shrine";
 
-activation_cost = {mana_cost} | {tap_cost} | {untap_cost} | {sacrifice_cost} |
-                  {discard_cost} | {life_cost} | {loyalty_cost} | {counter_removal} |
-                  {exile_cost} | {counter_addition};
+land_types = "desert" | "forest" | "gate" | "island" | "lair" | "locus" | "mine" |
+             "mountain" | "plains" | "power_plant" | "sphere" | "swamp" | "tower" | "urza_s";
 
+planeswalker_types = "ajani" | "aminatou" | "angrath" | "arlinn" | "ashiok" | "bahamut" | "basri" | "bolas" |
+                     "calix" | "chandra" | "comet" | "dack" | "dakkon" | "daretti" | "davriel" | "dihada" | "domri" |
+                     "dovin" | "ellywick" | "elminster" | "elspeth" | "estrid" | "freyalise" | "garruk" | "gideon" |
+                     "grist" | "guff" | "huatli" | "jace" | "jared" | "jaya" | "jeska" | "kaito" | "karn" | "kasmina" |
+                     "kaya" | "kiora" | "koth" | "liliana" | "lolth" | "lukka" | "minsc" | "mordenkainen" | "nahiri" |
+                     "narset" | "niko" | "nissa" | "nixilis" | "oko" | "ral" | "rowan" | "saheeli" | "samut" |
+                     "sarkhan" | "serra" | "sivitri" | "sorin" | "szat" | "tamiyo" | "tasha" | "teferi" | "teyo" |
+                     "tezzeret" | "tibalt" | "tyvar" | "ugin" | "urza" | "venser" | "vivien" | "vraska" | "vronos" |
+                     "will" | "windgrace" | "wrenn" | "xenagos" | "yanggu" | "yanling" | "zariel";
 
-tap_cost = tap_effect;
-untap_cost = untap_effect;
+spell_types = "adventure" | "arcane" | "lesson" | "trap";
 
-sacrifice_cost = "sacrifice(" target_permanent "," filter_condition ")" |
-                 "sacrifice(" {target_permanent} "," filter_condition ")" ;
+creature_types = "advisor" | "aetherborn" | "alien" | "ally" | "angel" | "antelope" | "ape" | "archer" |
+                 "archon" | "army" | "artificer" | "assassin" | "assembly-worker" | "astartes" | "atog" |
+                 "aurochs" | "avatar" | "azra" | "badger" | "balloon" | "barbarian" | "bard" | "basilisk" |
+                 "bat" | "bear" | "beast" | "beeble" | "beholder" | "berserker" | "bird" | "blinkmoth" | "boar" |
+                 "bringer" | "brushwagg" | "camarid" | "camel" | "capybara" | "caribou" | "carrier" | "cat" | "centaur" |
+                 "cephalid" | "child" | "chimera" | "citizen" | "cleric" | "clown" | "cockatrice" | "construct" | "coward" |
+                 "crab" | "crocodile" | "c_tan" | "custodes" | "cyberman" | "cyclops" | "dalek" | "dauthi" | "demigod" |
+                 "demon" | "deserter" | "detective" | "devil" | "dinosaur" | "djinn" | "doctor" | "dog" | "dragon" |
+                 "drake" | "dreadnought" | "drone" | "druid" | "dryad" | "dwarf" | "efreet" | "egg" | "elder" |
+                 "eldrazi" | "elemental" | "elephant" | "elf" | "elk" | "employee" | "eye" | "faerie" | "ferret" |
+                 "fish" | "flagbearer" | "fox" | "fractal" | "frog" | "fungus" | "gamer" | "gargoyle" | "germ" | "giant" |
+                 "gith" | "gnoll" | "gnome" | "goat" | "goblin" | "god" | "golem" | "gorgon" | "graveborn" | "gremlin" |
+                 "griffin" | "guest" | "hag" | "halfling" | "hamster" | "harpy" | "hellion" | "hippo" | "hippogriff" |
+                 "homarid" | "homunculus" | "horror" | "horse" | "human" | "hydra" | "hyena" | "illusion" | "imp" |
+                 "incarnation" | "inkling" | "inquisitor" | "insect" | "jackal" | "jellyfish" | "juggernaut" | "kavu" |
+                 "kirin" | "kithkin" | "knight" | "kobold" | "kor" | "kraken" | "lamia" | "lammasu" | "leech" | "leviathan" |
+                 "lhurgoyf" | "licid" | "lizard" | "manticore" | "masticore" | "mercenary" | "merfolk" | "metathran" | "minion" |
+                 "minotaur" | "mite" | "mole" | "monger" | "mongoose" | "monk" | "monkey" | "moonfolk" | "mouse" | "mutant" |
+                 "myr" | "mystic" | "naga" | "nautilus" | "necron" | "nephilim" | "nightmare" | "nightstalker" | "ninja" |
+                 "noble" | "noggle" | "nomad" | "nymph" | "octopus" | "ogre" | "ooze" | "orb" | "orc" | "orgg" |
+                 "otter" | "ouphe" | "ox" | "oyster" | "pangolin" | "peasant" | "pegasus" | "pentavite" |
+                 "performer" | "pest" | "phelddagrif" | "phoenix" | "phyrexian" | "pilot" | "pincher" |
+                 "pirate" | "plant" | "praetor" | "primarch" | "prism" | "processor" | "rabbit" | "raccoon" |
+                 "ranger" | "rat" | "rebel" | "reflection" | "rhino" | "rigger" | "robot" | "rogue" | "sable" |
+                 "salamander" | "samurai" | "sand" | "saproling" | "satyr" | "scarecrow" | "scientist" | "scion" |
+                 "scorpion" | "scout" | "sculpture" | "serf" | "serpent" | "servo" | "shade" | "shaman" |
+                 "shapeshifter" | "shark" | "sheep" | "siren" | "skeleton" | "slith" | "sliver" | "slug" |
+                 "snail" | "snake" | "soldier" | "soltari" | "spawn" | "specter" | "spellshaper" | "sphinx" |
+                 "spider" | "spike" | "spirit" | "splinter" | "sponge" | "squid" | "squirrel" | "starfish" |
+                 "surrakar" | "survivor" | "tentacle" | "tetravite" | "thalakos" | "thopter" | "thrull" |
+                 "tiefling" | "time_lord" | "treefolk" | "trilobite" | "triskelavite" | "troll" | "turtle" |
+                 "tyranid" | "unicorn" | "vampire" | "vedalken" | "viashino" | "volver" | "wall" | "walrus" |
+                 "warlock" | "warrior" | "weird" | "werewolf" | "whale" | "wizard" | "wolf" | "wolverine" |
+                 "wombat" | "worm" | "wraith" | "wurm" | "yeti" | "zombie" | "zubera";
+
+planar_types = "the_abyss" | "alara" | "alfava_metraxis" | "amonkhet" | "androzani_minor" | "antausia" |
+               "apalapucia" | "arcavios" | "arkhos" | "azgol" | "belenon" | "bolas_s_meditation realm" |
+               "capenna" | "cridhe" | "the_dalek_asylum" | "darillium" | "dominaria" | "earth" | "echoir" |
+               "eldraine" | "equilor" | "ergamon" | "fabacin" | "fiora" | "gallifrey" | "gargantikar" |
+               "gobakhan" | "horsehead_nebula" | "ikoria" | "innistrad" | "iquatana" | "ir" | "ixalan" |
+               "kaladesh" | "kaldheim" | "kamigawa" | "kandoka" | "karsus" | "kephalai" | "kinshala" |
+               "kolbahan" | "kylem" | "kyneth" | "the_library" | "lorwyn" | "luvion" | "mars" | "mercadia" |
+               "mirrodin" | "moag" | "mongseng" | "moon" | "muraganda" | "necros" | "new_earth" | "new_phyrexia" |
+               "outside_mutter_s_spiral" | "phyrexia" | "pyrulea" | "rabiah" | "rath" | "ravnica" | "regatha" |
+               "segovia" | "serra_s_realm" | "shadowmoor" | "shandalar" | "shenmeng" | "skaro" | "spacecraft" |
+               "tarkir" | "theros" | "time" | "trenzalore" | "ulgrotha" | "unknown planet" | "valla" |
+               "vryn" | "wildfire" | "xerex" | "zendikar" | "zhalfir";
+
+dungeon_types = "undercity";
+
+battle_types = "siege";
+```
+</details>
 
 ```
+card_type_statement = "card_type: " {card_type};
+card_type = "artifact"| "battle" | "conspiracy" | "creature" | "dungeon" | "enchantment" | "instant" | "land" | "phenomenon" | "plane" |
+            "planeswalker" | "scheme" | "sorcery" | "tribal" | "vanguard";
 
-Let's as example the whole part of the comprehensive rules regarding the discard action:
+supertype_statement = "supertype: "{supertype};
+supertype = "basic" | "legendary" | "ongoing" | "snow" | "world";
 
-> **701.8.** Discard
->  - **701.8a** To discard a card, move it from its owner’s hand to that player’s graveyard.
->  - **701.8b** By default, effects that cause a player to discard a card allow the affected player to choose
-which card to discard. Some effects, however, require a random discard or allow another player
-to choose which card is discarded.
->  - **701.8c** If a card is discarded, but an effect causes it to be put into a hidden zone instead of into its
-owner’s graveyard without being revealed, all values of that card’s characteristics are
-considered to be undefined. If a card is discarded this way to pay a cost that specifies a
-characteristic about the discarded card, that cost payment is illegal; the game returns to the
-moment before the cost was paid (see rule 728, “Handling Illegal Actions”).
+faces = "faces: " new_line
+        {indent} {card}
 
-```ebnf
-discard_cost = "discard(" target_card  ")" |
-               "discard(" {target_card} ")" |
-               "discard(" {target_card} "," filter_condition ")" |
-               "discard(" card_number "," {target_card} "," filter_condition ")";
+layout = "layout: " layout_type;
+layout_type = "single_face" | "multiple_face";  (*for this specific case, due to the fact that scryfall handles all multiple
+                                                  faced cards the same way i think this could a good practice to keep.*)
 
-discard_effect = discard_cost |
-                 "discard(" target_player "," card_number "," {target_card} "," filter_condition ")";
-```
-Let's see some examples of activated abilities:
-
-| |
-|:--|
-| Remove a +1/+1 counter from CARD_NAME: It deals 1 damage to any target.|
-| Tap three untapped Merfolk you control: Draw a card. |
-| {T}: Add {B} or {G}. |
-| {2}{B}, {T}, Exile CARD_NAME: Until end of turn, you may play lands and cast spells from your graveyard. If a card would be put into your graveyard from anywhere this turn, exile that card instead. |
-| Sacrifice another creature or artifact: Put a +1/+1 counter on CARD_NAME.  |
-
-
-```ebnf
-sacrifice_effect = sacrifice_cost |
-                   "sacrifice(" target_player "," target_permanent "," filter_condition ")" |
-                   "sacrifice(" target_player "," {target_permanent} "," filter_condition ")";
-
-untap_effect = "untap(" target_permanent "," filter_condition ")" |
-               "untap(" {target_permanent} "," filter_condition  ")";
-
-tap_effect = "tap(" target_permanent "," filter_condition ")" |
-             "tap(" {target_permanent} "," filter_condition  ")";
-
-
-target = {target_permanent} | {target_player} | {target_spell} | {target_ability};
-
-target_player = "this_player" | "other_player" | "all_players" | "any_player";
-
-target_permanent = "this_permanent" | "other_permanent" | "all_permanent" | "any_permanent";
-
-target_card = "this_card" | "any_card" | "hand";
-
-filter_condition = {comparison_expression};
-
-comparison_expression = value comparison_operator value;
-
-comparison_operator = "==" | "!=" | "<" | ">" | "<=" | ">=" | "is" | "in";
-
-value = (*qualsiasi argomento di riferimento*)
-
-```
-
-
-#### Mana Cost
-```ebnf
-mana_cost = "{" mana_symbol "}" |
-            "{" mana_symbol "/" mana_symbol "}" |
-            "{" mana_symbol "/" mana_symbol "/" phyrexian_symbol "}" ;
+mana_cost =  "mana_cost: " ("no_cost"| {mana_symbol} | {mana_symbol mana_symbol} | {mana_symbol  mana_symbol  phyrexian_symbol});
 
 phyrexian_symbol = "P";
-tap_cost = "{T}";
-untap_cost = "{Q}";
-
 mana_symbol = "W" | "U" | "B" | "R" | "G" | "C" | "X" | {number};
 ```
 
 Let's identify an example for each mana cost:
-1. `{R}` -> <img width=20  src="https://svgs.scryfall.io/card-symbols/R.svg"></img> means you have to pay one red mana.
-2. `{2/W}`, `{G/B}` -> <img width=20  src="https://svgs.scryfall.io/card-symbols/2W.svg"></img> <img width=20  src="https://svgs.scryfall.io/card-symbols/BG.svg"></img> mean that you can pay with two colorless mana or just one white mana, you can pay with one black mana or one green mana.
-2. `{G/B/P}` -> <img width=20  src="https://svgs.scryfall.io/card-symbols/BGP.svg"></img> means you can pay with one black mana or one green mana or 2 Hit Points (life or simply HP).
+1. `R` -> <img width=20  src="https://svgs.scryfall.io/card-symbols/R.svg"></img> means you have to pay one red mana.
+2. `2W`, `GB` -> <img width=20  src="https://svgs.scryfall.io/card-symbols/2W.svg"></img> <img width=20  src="https://svgs.scryfall.io/card-symbols/BG.svg"></img> mean that you can pay with two colorless mana or just one white mana, you can pay with one black mana or one green mana.
+2. `GBP` -> <img width=20  src="https://svgs.scryfall.io/card-symbols/BGP.svg"></img> means you can pay with one black mana or one green mana or 2 Hit Points (life or simply HP).
+
+Let's see an example too (I took true examples):
+- `mana_cost: X X`: means we have a cards with total cost of <img width=20  src="https://svgs.scryfall.io/card-symbols/X.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/X.svg"></img>
+- `mana_cost: R R R`: means we have a cards with total cost of <img width=20  src="https://svgs.scryfall.io/card-symbols/R.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/R.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/R.svg"></img>
+- `mana_cost: 5 GB GB`: means we have a cards with total cost of <img width=20  src="https://svgs.scryfall.io/card-symbols/5.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/BG.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/BG.svg"></img>
+- `mana_cost: 2W 2U 2B 2R 2G`: means we have a cards with total cost of <img width=20  src="https://svgs.scryfall.io/card-symbols/2W.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/2U.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/2B.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/2R.svg"></img><img width=20  src="https://svgs.scryfall.io/card-symbols/2G.svg"></img>
+- `mana_cost: 2 G GUP U`: means we have a cards with total cost <img width=20  src="https://svgs.scryfall.io/card-symbols/2.svg"> <img width=20  src="https://svgs.scryfall.io/card-symbols/G.svg"> <img width=20  src="https://svgs.scryfall.io/card-symbols/GUP.svg"> <img width=20  src="https://svgs.scryfall.io/card-symbols/U.svg">
+
+```ebnf
+oracle_text = "oracle_text: " opening_quote {paragraph} closing_quote;
+flavour_text = "flavour_text: " opening_quote {paragraph} closing_quote;
+
+name = "name: " {text};
+
+opening_quote = "<"; (*I need a feedback on what could be a good quote sign, this could help*)
+closing_quote = ">";
+paragraph = {text};
+text = {word};
+word = {letter};
+letter = (* A, a, ... z, Z plus all special character *);
+number = {digit} | {digit} {number};
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+indent = "  " | "\t";
+new_line = "\n" | "\n\r" | "\r";
+```
