@@ -16,25 +16,27 @@ card = name new_line
        subtype_statement new_line
        [effects]
        [oracle_text new_line]
-       [flavour_text new_line]
        [faces new_line]
        [power new_line]
        [toughness new_line]
        [loyalty new_line]
        [defence new_line];
 
-effects = "effects: " new_line
-          {base_effect} new_line; (*to be defined*)
 
-power = "power: " ({number} | "*" | "*+" {number});
-toughness = "toughness: " ({number} | "*" | "*+" {number});
-loyalty = "loyalty: " {number};
-defence = "defence: " {number};
+power = "power: " (number | "*" | "* + " number);
+toughness = "toughness: " (number | "*" | "* + " number);
+loyalty = "loyalty: " number;
+defence = "defence: " number;
 
-subtype_statement = "subtype: " ( {artifact_type} | {enchantment_type} | {land_type} | {planeswalker_type} |
-                                  {spell_type} | {creature_type} | {planar_type} | {dungeon_type} );
-                    (*NOTE: remember that the subtype MUST match with the card type expressed above, can be also a combination of these types*)
+subtype_statement = "subtype: " ( artifact_type {artifact_type} | enchantment_type {enchantment_type} | land_type {land_type} |
+                                  planeswalker_type {planeswalker_type} | spell_type {spell_type} | creature_type {creature_type} |
+                                  planar_type {planar_type} | dungeon_type {dungeon_type} );
+                    (*NOTE: remember that the subtype MUST match with the card type expressed above,
+                            can be also a combination of these types*)
 ```
+
+For the Effects synthax see [Scripting Effects document](ScriptingEffects.md).
+
 <details>
   <summary>Expand to find all subtypes listed above</summary>
 
@@ -116,11 +118,11 @@ battle_type  = "siege";
 </details>
 
 ```ebnf
-card_type_statement = "card_type: " {card_type};
+card_type_statement = "card_type: " card_type {card_type};
 card_type = "artifact"| "battle" | "conspiracy" | "creature" | "dungeon" | "enchantment" | "instant" | "land" | "phenomenon" | "plane" |
             "planeswalker" | "scheme" | "sorcery" | "tribal" | "vanguard";
 
-supertype_statement = "supertype: "{supertype};
+supertype_statement = "supertype: " supertype {supertype};
 supertype = "basic" | "legendary" | "ongoing" | "snow" | "world";
 
 faces = "faces: " new_line
@@ -150,17 +152,16 @@ Let's see an example too (I took true examples):
 
 ```ebnf
 oracle_text = "oracle_text: " opening_quote {paragraph} closing_quote;
-flavour_text = "flavour_text: " opening_quote {paragraph} closing_quote;
 
 name = "name: " {text};
 
-opening_quote = "<"; (*I need a feedback on what could be a good quote sign, this could help*)
+opening_quote = "<"; 
 closing_quote = ">";
 paragraph = {text};
 text = {word};
 word = {letter};
-letter = (* A, a, ... z, Z plus all special character *);
-number = {digit} | {digit} {number};
+letter = (* A, a, ... z, Z and all accented letters plus the following characters: ( ) | , . — – - [ ] “ ”*);
+number = digit | digit {number};
 digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 indent = "  " | "\t";
 new_line = "\n" | "\n\r" | "\r";
