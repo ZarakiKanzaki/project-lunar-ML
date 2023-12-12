@@ -14,6 +14,7 @@ card = name new_line
        supertype_statement new_line
        card_type_statement new_line
        subtype_statement new_line
+       [keywords]
        [effects]
        [oracle_text new_line]
        [faces new_line]
@@ -35,7 +36,7 @@ subtype_statement = "subtype: " ( artifact_type {artifact_type} | enchantment_ty
                             can be also a combination of these types*)
 ```
 
-For the Effects synthax see [Scripting Effects document](ScriptingEffects.md).
+For the Effects and Keywords synthax see [Scripting Effects document](ScriptingEffects.md).
 
 <details>
   <summary>Expand to find all subtypes listed above</summary>
