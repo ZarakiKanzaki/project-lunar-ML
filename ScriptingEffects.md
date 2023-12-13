@@ -22,7 +22,7 @@ keyword = "type: " ( "simple" | "with_amount" | "with_amount_and_type" |
 
 effect_collection = indent {indent} ( activated_ability |
                                      base_ability | complex_ability) new_line {effect_collection};
-(*there probably need more*)
+(*there are more to be defined*)
 
 (*note that from Now on the indent **MUST** always be the number of the previous indents plus 1*)
 
