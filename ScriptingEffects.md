@@ -16,7 +16,7 @@ keyword = "type: " ( "simple" | "with_amount" | "with_amount_and_type" |
           "name: " keyword_name new_line
           ["cost: " complete_cost {complete_cost} new_line]
           ["amount: " number new_line]
-          [""];
+          ["affected_type: " ( supertype | card_type | subtype ) new_line];
 
 
 
