@@ -67,6 +67,6 @@ keyword_name = "living_weapon" | "jump-start" | "commander_ninjutsu" | "legendar
                "plainscycling" | "swampcycling" | "typecycling" | "wizardcycling" |
                "mountaincycling" | "basic_landcycling" | "islandcycling" | "forestcycling" |
                "slivercycling" | "landcycling" | "bargain" | "choose_a_background" |
-               "echo" | "doctor's_companion";
+               "echo" | "doctor_s_companion";
 
 ```
