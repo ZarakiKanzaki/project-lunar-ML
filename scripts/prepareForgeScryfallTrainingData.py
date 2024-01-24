@@ -84,10 +84,10 @@ def main():
     args = parser.parse_args()
 
     # Parse and simplify cards
-    simplified_cards = parse_cards(args.forge_cardsfolder_base_path)
+    simplified_cards = parse_cards(args.scryfall_batch_oracle_json)
 
     # Extract and compile data
-    compiled_data = extract_data_from_files(args.scryfall_batch_oracle_json, simplified_cards)
+    compiled_data = extract_data_from_files(args.forge_cardsfolder_base_path, simplified_cards)
 
     # Write the data to a CSV file
     write_data_to_csv(compiled_data, args.output_csv_path)
