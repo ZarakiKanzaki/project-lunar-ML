@@ -2,6 +2,8 @@ import os
 import csv
 import json
 import argparse
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 def parse_cards(file_path):
     """Parse cards from a JSON file and simplify the data."""
@@ -42,18 +44,30 @@ def extract_card_name(content):
             return line.split(':', 1)[1].strip()
     return None
 
-def write_data_to_csv(data, file_name):
-    """Write extracted data to a CSV file."""
-    with open(file_name, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow(['instruction', 'input', 'output', 'text'])
-        for name, json_input, content in data:
-            formatted_content = content.replace('\n', '\\n')
-            combined_text = (f"Below is an instruction that describes a task then the input and response.\n"
-                             f"### Instruction: Create the Forge script for this magic card\n"
-                             f"### Input: {json_input}\n"
-                             f"### Response: {formatted_content}")
-            writer.writerow(["Create the Forge script for this magic card", json_input, formatted_content, combined_text])
+def write_data_to_csv(data, file_name, train_ratio=0.7, test_ratio=0.2, val_ratio=0.1):
+    """Write extracted data to separate CSV files for train, test, and validation."""
+    np.random.shuffle(data)  # Shuffle the data before splitting
+
+    # Split the data into train and test+validation sets
+    train_data, test_val_data = train_test_split(data, test_size=test_ratio + val_ratio)
+
+    # Split the test+validation set into test and validation sets
+    test_data, val_data = train_test_split(test_val_data, test_size=val_ratio / (test_ratio + val_ratio))
+
+    # Write each split to a separate CSV file with the appropriate suffix
+    for split_data, split_name in zip([train_data, test_data, val_data], ['train', 'test', 'val']):
+        split_file_name = f"{file_name}_{split_name}.csv"
+        with open(split_file_name, mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(['instruction', 'input', 'output', 'text'])
+            for name, json_input, content in split_data:
+                formatted_content = content.replace('\n', '\\n')
+                combined_text = (f"Below is an instruction that describes a task then the input and response.\n"
+                                 f"### Instruction: Create the Forge script for this magic card\n"
+                                 f"### Input: {json_input}\n"
+                                 f"### Response: {formatted_content}")
+                writer.writerow(["Create the Forge script for this magic card", json_input, formatted_content, combined_text])
+        print(f"Created {split_name} CSV file: {split_file_name}")
 
 def extract_data_from_files(base_path, json_data):
     """Extract and combine data from files and JSON."""
@@ -91,7 +105,7 @@ def main():
 
     # Write the data to a CSV file
     write_data_to_csv(compiled_data, args.output_csv_path)
-    print(f"Created CSV file: {args.output_csv_path}")
+    print(f"Created train, test, and validation CSV files with prefix: {args.output_csv_path}")
 
 if __name__ == "__main__":
     main()
