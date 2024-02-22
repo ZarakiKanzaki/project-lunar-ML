@@ -11,9 +11,9 @@ The main goal is to keep it the easiest and the most readable possible. So we co
 card = name new_line
        mana_cost new_line
        layout new_line (*In case the layout is multiple_faces some other attributes will not be displayed*)
-       supertype_statement new_line
        card_type_statement new_line
        subtype_statement new_line
+       [supertype_statement new_line]
        [keywords]
        [effects]
        [oracle_text new_line]
