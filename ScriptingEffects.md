@@ -8,7 +8,8 @@ effects = "effects: " new_line
                       effect_collection;
 
 keywords = "keywords: " new_line
-               indent {indent} keyword {keyword};
+               {indent}+ "keyword: " new_line
+               {indent}+ {indent}+  {keyword}+;
 
 keyword = "type: " ( "simple" | "with_amount" | "with_amount_and_type" |
                      "with_cost" | "with_cost_and_type" | "with_cost_and_amount"
