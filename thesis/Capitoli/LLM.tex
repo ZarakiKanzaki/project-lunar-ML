@@ -1,0 +1,64 @@
+\chapter{Teoria dei Trasformatori}\label{chapter:llm-theory}
+Nel corso di questo capitolo, esploreremo i fondamenti teorici dell'elaborazione del linguaggio naturale (NLP), compresi concetti chiave come la comprensione del linguaggio naturale e la generazione di testo. Successivamente, ci immergeremo nell'architettura dei trasformatori, un'evoluzione dei modelli di NLP, che ha introdotto un nuovo approccio basato sull'auto-attenzione per catturare il contesto globale del testo. Infine, l'attenzione si volge agli LLM, al cuore degli esperimenti svolti in questa tesi, analizzandone la struttura, il processo di preallenamento e adattamento, e le loro applicazioni, focalizzandosi specificamente sulla generazione di script per le carte di \emph{Magic: The Gathering}.
+
+
+\section{NLP}\label{sec:nlp}
+L'elaborazione del linguaggio naturale (NLP, Natural Language Processing) è una branca dell'intelligenza artificiale che si occupa della comprensione, interpretazione e generazione del linguaggio umano. L'obiettivo principale della NLP è consentire alle macchine di comprendere e comunicare con gli esseri umani in modo naturale e significativo.
+
+Uno degli approcci più comuni per affrontare i problemi di NLP è utilizzare modelli di linguaggio, che sono modelli matematici in grado di catturare la struttura e le regole del linguaggio naturale. I modelli di linguaggio possono essere utilizzati per una vasta gamma di applicazioni, tra cui la traduzione automatica, il riconoscimento vocale, la generazione di testo e il riconoscimento di entità nominate.
+
+La NLP utilizza una varietà di approcci e tecniche per analizzare e generare il linguaggio naturale. Alcuni dei principali metodi utilizzati nella NLP includono:
+
+\begin{enumerate}[label=\alph*.]
+    \item \textbf{Analisi sintattica}: L'analisi sintattica si concentra sulla struttura grammaticale delle frasi, identificando le relazioni tra parole e frasi all'interno del testo. Questo processo può includere il riconoscimento delle parti del discorso, l'analisi delle dipendenze tra parole e la costruzione di alberi di parsing per rappresentare la struttura gerarchica delle frasi.
+
+    \item \textbf{Analisi semantica}: L'analisi semantica si occupa di comprendere il significato delle parole e delle frasi nel contesto. Ciò può includere il riconoscimento di entità nominate (come nomi di persone, luoghi o organizzazioni), la risoluzione delle ancore (determinare a quale entità si riferisce un pronome) e l'estrazione delle relazioni tra entità (come ``X lavora per Y").
+    
+    \item \textbf{Analisi del sentiment}: L'analisi del sentiment mira a determinare l'opinione, l'emozione o l'atteggiamento espresso nel testo. Questo processo può essere svolto a livello di parola, frase o documento e può essere utilizzato per analizzare recensioni di prodotti, post sui social media e altri tipi di testo in cui le opinioni e le emozioni sono importanti.
+    
+    \item \textbf{Generazione di testo}: La generazione di testo riguarda la creazione di nuovo testo a partire da dati strutturati o non strutturati. Questo processo può essere utilizzato per creare riassunti di articoli, risposte automatiche a domande o testo descrittivo per immagini.
+    
+    \item \textbf{Traduzione automatica}: La traduzione automatica è il processo di conversione del testo da una lingua all'altra. Questo compito è particolarmente impegnativo a causa delle differenze tra le lingue in termini di grammatica, sintassi e vocabolario.
+
+\end{enumerate}
+
+
+\subsection{Trasformatori}\label{sec:transformers}
+I trasformatori sono un'architettura di rete neurale introdotta da Vaswani et al. nel 2017 \cite{DBLP:conf/nips/VaswaniSPUJGKP17}, che ha rivoluzionato il campo della NLP grazie alla sua capacità di gestire sequenze di lunghezza variabile e di catturare relazioni a lungo raggio tra parole e frasi. L'idea chiave dei trasformatori è il meccanismo di \emph{\textbf{Attenzione}}, che permette al modello di ``focalizzarsi'' su parti specifiche della sequenza di input quando elabora l'output, pesando l'importanza relativa di ciascun elemento in base al contesto.
+
+In un modello con meccanismo di attenzione, ogni elemento dell'output viene generato considerando l'intera sequenza di input e assegnando un peso a ciascun elemento di input. Questi pesi, chiamati ``pesi di attenzione", sono appresi dal modello durante il processo di addestramento e indicano quanto ciascun elemento dell'input è rilevante per la generazione dell'elemento corrente dell'output.
+
+L'attenzione può essere vista come una sorta di memoria selettiva che consente al modello di tenere conto delle informazioni rilevanti e ignorare quelle irrilevanti, migliorando così la capacità di gestire sequenze di lunghezza variabile e di catturare relazioni a lungo raggio tra parole e frasi.
+I trasformatori sono costituiti da una serie di blocchi di codifica e decodifica, ciascuno dei quali contiene un meccanismo di attenzione multi-testa e una rete feed-forward posizionale. Questa architettura (Figura \ref{fig:transformer}\footnote{Immagine presa dal libro \emph{Dive into Deep Learning} \cite{d2l-book-transformer}}) consente ai trasformatori di gestire efficacemente le dipendenze a lungo raggio nel testo e di apprendere rappresentazioni semantiche più ricche rispetto ai modelli precedenti.
+\begin{figure}[ht]
+	\centering
+	\includesvg[width=0.7\textwidth]{Immagini/transformer.svg}
+	\caption{Architettura di un trasformatore}
+	\label{fig:transformer}
+\end{figure}
+
+Ad alto livello, l'encoder del trasformatore è costituito da una serie di strati identici, ciascuno dei quali comprende due sottolivelli (indicati come \(sublayer\)). Il primo sottolivello consiste in un raggruppamento di auto-attenzione multi-testa, mentre il secondo è una rete feed-forward posizionale. In particolare, nell'auto-attenzione dell'encoder, le query, le chiavi e i valori provengono tutti dagli output del livello precedente dell'encoder. Ispirandosi alla progettazione delle Reti Neurali Residue (\emph{ResNet}), viene utilizzata una connessione residua intorno a entrambi i sottolivelli. Nel trasformatore, per qualsiasi input $x \in \mathbb{R}^d$ presente in qualsiasi posizione della sequenza, si richiede che $sublayer(x) \in \mathbb{R}^d$ in modo tale che la connessione residuale $x + sublayer(x) \in \mathbb{R}^d$ sia realizzabile.
+
+Questa aggiunta dalla connessione residua è seguita immediatamente dalla normalizzazione del livello \cite{DBLP:journals/corr/BaKH16}. Di conseguenza, l'encoder del trasformatore restituisce una rappresentazione vettoriale $d$-dimensionale per ogni posizione della sequenza di input.
+
+Anche il decoder del trasformatore è costituito da una serie di strati identici con connessioni residue e normalizzazioni del livello. Oltre ai due sottolivelli presenti nell'encoder, il decoder introduce un terzo sottolivello, chiamato attenzione encoder-decoder, tra gli altri due. Nell'attenzione encoder-decoder, le query provengono dagli output del sottolivello di auto-attenzione del decoder, mentre le chiavi e i valori derivano dagli output dell'encoder del trasformatore. Nell'auto-attenzione del decoder, le query, le chiavi e i valori sono tutti ottenuti dagli output del livello precedente del decoder. Tuttavia, ogni posizione nel decoder può partecipare solo a tutte le posizioni nel decoder fino a quella specifica posizione. Questa attenzione mascherata mantiene la proprietà autoregressiva, garantendo che la previsione dipenda esclusivamente dai token di output generati fino a quel momento.
+
+
+\section{LLM}\label{sec:llm}
+
+I \emph{Large Language Models} (\emph{LLM}) sono potenti modelli di apprendimento profondo addestrati su enormi set di dati testuali. Il loro nucleo, il traformatore, è composto da encoder e decoder, ognuno con capacità di auto-attenzione, che permettono di estrarre significati e relazioni da sequenze di testo.
+
+A differenza delle Reti Neurali Ricorrenti (RNN) precedenti, che elaboravano sequenzialmente gli input, i trasformatori elaborano intere sequenze in parallelo. Ciò consente un addestramento più efficiente utilizzando l'accelerazione delle GPU, riducendo i tempi di addestramento.
+
+Grazie all'architettura dei trasformatori, gli LLM possono essere estremamente grandi, composti da centinaia di miliardi di parametri. Questi modelli su larga scala sono in grado di assimilare enormi quantità di dati provenienti da fonti come \emph{Internet}, il \emph{Common Crawl} e \emph{Wikipedia}.
+
+Gli LLM sono estremamente flessibili e possono eseguire una vasta gamma di compiti, tra cui rispondere a domande, riassumere documenti, tradurre lingue e completare frasi. Questi modelli hanno il potenziale per trasformare la creazione di contenuti e l'utilizzo di motori di ricerca e assistenti virtuali.
+
+Nonostante non siano perfetti, gli LLM dimostrano una notevole capacità predittiva anche con un numero relativamente limitato di input. Possono essere utilizzati per la generazione di contenuti basati sul linguaggio umano, rappresentando un importante sviluppo nell'intelligenza artificiale generativa.
+
+Un aspetto cruciale del funzionamento degli LLM è la loro capacità di rappresentare le parole tramite vettori multidimensionali, noti come incorporamenti di parole. Questi vettori consentono al modello di comprendere il contesto e le relazioni tra le parole, superando le limitazioni delle rappresentazioni numeriche tradizionali delle parole.
+
+Sfruttando gli incorporamenti di parole, i transformer possono elaborare il testo in forma numerica tramite l'encoder, catturando il contesto e le relazioni semantiche, e poi generare un output significativo attraverso il decoder.
+Esistono molte applicazioni pratiche per gli LLM tra cui: scrittura di testi, generare risposte in base alle conoscenze, generazione di testo, classificazione del testo, generazione di codice.
+
+Nei capitoli successivi, ci concentreremo in particolare sulla loro applicazione per generare codice, in particolare come essi possano risultare efficaci nella generazione di linguaggi a dominio specifico.

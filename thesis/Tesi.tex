@@ -1,0 +1,97 @@
+\documentclass{theme/uniprthesis}
+
+%%%%%%%%%%%Some Extra Packages%%%%%%%%%%%
+\usepackage[italian]{babel}		% To have Italina names in Sections, Figures, Chapters etc.
+\usepackage{todonotes}			% To ease the revision
+
+\usepackage{enumitem}
+\usepackage{svg}
+\usepackage{blindtext} 			% Dummy Text - remove
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+\usepackage{ mathtools , amssymb , amsthm }
+
+\usepackage{fancyvrb,fvextra}
+
+\floatname{algorithm}{Codice}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%% THESIS / TITLE PAGE INFORMATION
+% Everybody needs to complete the following:
+
+\title{LLM a progettazione di Lunar: \\ un linguaggio a dominio specifico \\ per giochi di carte collezionabili}
+\author{Davide Donadio}
+\advisor{Prof. Eleonora Iotti}
+\college{Dipartimento di Scienze Matematiche, Fisiche e Informatiche}
+\degree{Corso di Laurea Triennale in Informatica}
+\degreeyears{2022--2023}
+
+
+% Not mandatory fields
+\newcommand{\subTitle}{LLM to design Lunar: a domain-specific language \\ for trading card games} %Subtitle, usually the english version of the title
+
+%\newcommand{\advisorSecond}{Prof. Nome2 Cognome2} % For multiple (up to 4) advisors -- if this is not present then also the remaining ones are automatically omitted
+%\newcommand{\advisorThird}{Dott. Nome3 Cognome3} % For multiple (up to 4) advisors -- if this is not present then also the remaining ones are automatically omitted
+%\newcommand{\advisorFourth}{Dott. Nome4 Cognome4} % For multiple (up to 4) advisors
+
+ %\newcommand{\coadvisor}{Prof. co-Nome co-Cognome}For multiple (up to 4) coadvisors -- if this is not present then also the remaining ones are automatically omitted
+\newcommand{\coadvisorSecond}{Prof. co-Nome2 co-Cognome2} % For multiple (up to 4) coadvisors -- if this is not present then also the remaining ones are automatically omitted
+%\newcommand{\coadvisorThird}{Dott. co-Nome3 co-Cognome3} % For multiple (up to 4) coadvisors -- if this is not present then also the remaining ones are automatically omitted
+%\newcommand{\coadvisorFourth}{Dott. co-Nome4 co-Cognome4} % For multiple (up to 4) coadvisors
+
+
+\begin{document}
+
+\maketitle
+
+%%%% La dedica
+\newpage
+\thispagestyle{empty}
+\null\vspace{\stretch{1}}
+\begin{flushright}
+ 	\textit{A te che sembrerà incomprensibile.} \\
+	\textit{A te che sembrerà un gioco da ragazzi.} \\
+  	\textit{A te che sarà il nuovo obiettivo da raggiungere.} \\
+\end{flushright}
+\vspace{\stretch{3}}\null
+\newpage
+
+%%%% Gli indici
+\pagestyle{plain}
+\pagenumbering{roman}
+\tableofcontents
+%
+\listoffigures    %Commentare se non vi sono Immagini
+\listofalgorithms %Commentare se non vi sono Algoritmi
+\listoftables     %Commentare se non vi sono Tabelle
+%
+%
+%
+%%%% La prefazione
+\include{Capitoli/Sommario}
+%
+%%%% I Capitoli di Contenuto	
+\pagestyle{fancy}
+\include{Capitoli/Introduzione}
+\include{Capitoli/Background}
+\include{Capitoli/LLM}
+\include{Capitoli/Metodologie}
+\include{Capitoli/Implementazione}
+%
+%
+%%%% Le Conclusioni
+\pagestyle{plain}
+\include{Capitoli/Conclusione}
+%
+%%%% La bibliograﬁa
+
+\bibliographystyle{unsrt} %{plain} -- Scegliere lo stile preferito
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliography{Bibliografia}
+%
+\include{Capitoli/Ringraziamenti}
+%
+%
+\end{document}

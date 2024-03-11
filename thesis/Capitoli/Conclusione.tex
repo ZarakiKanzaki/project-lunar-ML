@@ -1,0 +1,20 @@
+\chapter*{Conclusione} %Se si cambia il Titolo cambiare anche la riga successiva così che appia corretto nell'conclusione
+\addcontentsline{toc}{chapter}{Conclusione} %Per far apparire Introduzione nell'indice (Il nome deve rispecchiare quello del chapter)
+
+In questo lavoro, è stata esplorata l'applicazione degli LLM nel contesto dei giochi di carte collezionabili, in particolare \emph{Magic: The Gathering}, un fenomeno culturale di rilevanza globale. L'obiettivo principale era migliorare la generazione automatica degli script per le carte di \emph{Magic} utilizzando tecniche avanzate di elaborazione del linguaggio naturale e apprendimento automatico, come i trasformatori e i modelli di linguaggio.
+
+Sono stati discussi i principi di base del gioco, il ruolo del motore di regole Forge, l'evoluzione degli algoritmi e l'architettura dei trasformatori, nonché l'importanza dei modelli di linguaggio e delle loro applicazioni. Inoltre, è stato analizzato il ruolo del linguaggio ForgeScript e della nuova proposta rappresentata da Lunar nel processo di creazione e gestione degli effetti di gioco.
+
+Attraverso l'impiego di risorse di calcolo ad alte prestazioni e l'addestramento di diversi LLM, si è riusciti a ottenere risultati promettenti nella generazione automatica degli script per le carte di \emph{Magic}. Dai test effettuati, si evince che i migliori LLM per questo compito sono stati Orca-2 e phi-2, ottenendo prestazioni 60 volte migliori sulla metrica Perplexity (Tabella \ref{tab:llm_perplexity}) rispetto al meno performante TinyLlama, e di circa il 50\% migliori rispetto agli LLM di taglia media come Mistral. Phi-2 è stata la scelta preferita tra i due LLM per i suoi risultati qualitativi superiori e la sua dimensione più piccola. Appartenendo alla categoria dei modelli di linguaggio più piccoli (Small Language Model), ha ottenuto ottimi risultati consumando meno risorse (calcolo, memoria, etc.), rendendolo più economico ed accessibile sia in termini di addestramento che di inferenza. Un vantaggio rispetto a Orca-2 è che, qualora si utilizzasse un servizio a consumo come AWS o Azure, si ridurrebbero i costi di inferenza poiché consumerebbe meno memoria. Infatti, utilizzando AWS come servizio di esempio, i costi mensili per i due LLM ospitati su una istanza EC2 sarebbero rispettivamente 180\$ per Orca-2 e 60\$ per phi-2, ottendo un risparmio del 67\%. Questo spiega perché Microsoft sta investendo molto su phi-2 \cite{microsoft_loves_slm}.\newline
+
+Questa tesi costituisce il punto di partenza per la realizzazione di una serie di sviluppi, tra cui:
+
+\begin{enumerate}[label=\alph*.]
+    \item Sviluppo di un motore di regole generico, con la possibilità di estenderlo attraverso dei wrapper per il gioco al quale si desidera giocare.
+    \item Sviluppo di una grammatica ANTLR per descrivere il linguaggio Lunar nel dettaglio.
+    \item Addestramento di phi-2 per generare carte di \emph{Magic: The Gathering} utilizzando Lunar.
+    \item Sviluppo di un wrapper del motore di regole per \emph{Magic: The Gathering}.
+    \item Sviluppo di un gioco di carte collezionabili originale basato sull'approccio proposto in questa tesi.
+\end{enumerate}
+
+In conclusione, questo lavoro ha dimostrato l'efficacia e la flessibilità degli LLM nel generare script per giochi di carte collezionabili come \emph{Magic: The Gathering}, fornendo una base solida per ulteriori sviluppi e applicazioni nel campo dell'intelligenza artificiale applicata ai giochi.
