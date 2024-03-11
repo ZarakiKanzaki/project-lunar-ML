@@ -1,4 +1,5 @@
 \chapter{Regole del gioco}\label{chapter:background}
+
 In questo capitolo, verrà presentata una panoramica delle basi teoriche e concettuali, in particolare sui giochi di carte collezionabili, soffermandosi su \emph{Magic: The Gathering}. Esploreremo le regole fondamentali che governano il gioco, suddividendole in concetti chiave e zone di gioco. Successivamente, verrà fornita un'introduzione su come leggere una carta di Magic, comprendendo le informazioni essenziali presenti su di essa. Inoltre, si esaminerà il concetto di motore di regole all'interno del contesto di Magic: The Gathering, con un focus particolare sul caso d'uso di Forge e il suo impatto nel giocare e comprendere il gioco.
 
 \section{\textit{Magic The Gathering}}\label{sec:magic_the_gathering}
@@ -13,7 +14,7 @@ Le creature possono attaccare gli avversari o difendere il proprio giocatore dag
 Gli incantesimi e gli artefatti, invece, hanno effetti variabili che possono influenzare il campo di battaglia, le creature, i giocatori o altre carte in gioco. Questi effetti possono essere temporanei o permanenti, e possono avere un impatto significativo sull'andamento della partita.
 
 \subsection{Come leggere una carta di \emph{Magic}}\label{subsec:mtg_cards}
-Una carta di \emph{Magic} presenta diverse componenti chiave che forniscono informazioni sulle sue caratteristiche e funzioni. Di seguito è riportata una descrizione delle principali componenti di una carta, con l'immagine nella Figura \ref{fig:one} come esempio\footnote{ Per dettagli, vedere pagina 44 delle regole comprensive \cite{mtg-comp-rules}}:
+Una carta di \emph{Magic} presenta diverse componenti chiave che forniscono informazioni sulle sue caratteristiche e funzioni. Di seguito è riportata una descrizione delle principali componenti di una carta, con l'immagine nella Figura \ref{fig:one} come esempio\footnote{ Sezione ``Part of a Card" delle regole comprensive \cite{mtg-comp-rules}}:
 
 
 
@@ -63,12 +64,12 @@ Una carta di \emph{Magic} presenta diverse componenti chiave che forniscono info
     
     \item \textbf{Informazioni legali e di collezionismo}: nella parte inferiore della carta, si trovano informazioni legali, il numero di collezionismo e l'edizione a cui appartiene la carta. Queste informazioni sono utili per i collezionisti e per determinare l'ammissibilità delle carte nei diversi formati di gioco. 
     
-    \item \textbf{Forza/Costituzione}: per le carte creature, nella parte inferiore destra della carta, si trovano due numeri separati da una barra (/). Il primo numero indica la forza della creatura, ovvero la quantità di danno che può infliggere in combattimento, mentre il secondo numero rappresenta la costituzione, che indica la quantità di danno che la creatura può subire prima di essere distrutta.     
+    \item \textbf{Forza/Costituzione}: per le carte creature, nella parte inferiore destra della carta, si trovano due numeri separati da una barra (/). Il primo numero indica la forza della creatura, ovvero la quantità di danno che può infliggere in combattimento\footnote{Questo argomento sarà approfondito nella Sezione \ref{subsec:mtg_turns} -- Parti del turno}, mentre il secondo numero rappresenta la costituzione, che indica la quantità di danno che la creatura può subire prima di essere distrutta.     
 \end{enumerate}
 
 
 \subsection{Le zone di gioco}\label{subsec:mtg_zones}
-In \emph{Magic}, il tavolo di gioco si divide in diverse zone, ognuna delle quali ha uno scopo specifico e delle regole associate. Di seguito è riportata una descrizione delle principali zone di gioco\footnote{ Per dettagli, vedere pagina 69 delle regole comprensive \cite{mtg-comp-rules}}:
+In \emph{Magic}, il tavolo di gioco si divide in diverse zone, ognuna delle quali ha uno scopo specifico e delle regole associate. Di seguito è riportata una descrizione delle principali zone di gioco\footnote{ Sezione ``Zones" delle regole comprensive \cite{mtg-comp-rules}}:
 
 
 \begin{figure}[ht]
@@ -115,11 +116,12 @@ In \emph{Magic}, il tavolo di gioco si divide in diverse zone, ognuna delle qual
 
 \subsection{Parti del turno}\label{subsec:mtg_turns}
 
-Ogni turno procede secondo la stessa sequenza. Quando inizia una nuova fase o sottofase, ogni abilità innescata che si verifica durante quella sottofase si innesca e viene messa in pila. Il giocatore attivo (il giocatore di cui è il turno) può iniziare a lanciare magie e attivare abilità, seguito da ogni altro giocatore in ordine di turno. Quando tutti i giocatori decidono di non fare più nulla e non c'è nulla in pila in attesa di risolversi, la partita avanzerà alla sottofase successiva\footnote{ Per dettagli, vedere pagina 75 delle regole comprensive \cite{mtg-comp-rules}}.
+Ogni turno procede secondo la stessa sequenza. Quando inizia una nuova fase o sottofase, ogni abilità innescata che si verifica durante quella sottofase si innesca e viene messa in pila. Il giocatore attivo (il giocatore di cui è il turno) può iniziare a lanciare magie e attivare abilità, seguito da ogni altro giocatore in ordine di turno. Quando tutti i giocatori decidono di non fare più nulla e non c'è nulla in pila in attesa di risolversi, la partita avanzerà alla sottofase successiva\footnote{ Sezione ``Turn Structure" delle regole comprensive \cite{mtg-comp-rules}}.
 
 \subsubsection{Fase iniziale} 
 \begin{enumerate}[label=\alph*.] 
-\item Sottofase di \emph{STAP (Untap)}: Si STAPpano tutti i permanenti TAPpati del giocatore di turno. Nel primo turno di gioco, se non si hanno permanenti, questa sottofase viene saltata. Non è possibile lanciare magie o attivare abilità durante questa sottofase. 
+\item Sottofase di \emph{STAP (Untap)}: STAPpato/TAPpato rappresentano la condizione di una carta, rispettivamente la capacità e incapacità della stessa di essere utilizzata per determinate azioni durante il gioco. Si STAPpano tutti i permanenti TAPpati del giocatore di turno. Nel primo turno di gioco, se non si hanno permanenti, questa sottofase viene saltata%\footnote{TAP e STAP si riferiscono allo stato di un permanente. Un permanente TAPpato è stato utilizzato per un'azione o un effetto, mentre un permanente STAPpato è disponibile per essere utilizzato.}
+. Non è possibile lanciare magie o attivare abilità durante questa sottofase. 
 \item Sottofase di \emph{Mantenimento (Upkeep)}: I giocatori possono lanciare istantanei e attivare abilità. Questa parte del turno è menzionata su numerose carte. Se un'abilità deve verificarsi solo una volta per turno, precisamente all'inizio, si innescherà “all'inizio del mantenimento” del giocatore di turno. 
 \item Sottofase di \emph{Acquisizione (Draw)}: Il giocatore di turno deve pescare una carta dal proprio grimorio. Il giocatore che gioca per primo in una partita a due giocatori salta la sottofase di acquisizione nel suo primo turno per compensare il vantaggio di giocare per primo. Successivamente, i giocatori possono lanciare istantanei e attivare abilità. 
 \end{enumerate}
@@ -149,7 +151,7 @@ La seconda fase principale è simile alla prima. Il giocatore di turno può lanc
 
 
 \section{Cos'è un motore di regole (Rule Engine)}\label{sec:rule_engine}
-Non esiste una definizione consolidata di Rule Engine nel contesto della digitalizzazione dei giochi di carte e da tavolo. Tuttavia, nel contesto dello sviluppo software, un rule engine è un componente software che permette di separare la logica di business dall'implementazione tecnica di un'applicazione. Questo strumento consente di definire le regole aziendali in un formato dichiarativo, rendendo la gestione della logica complessa del sistema più flessibile e manutenibile. Le regole, espresse in termini di condizioni e azioni, possono essere valutate dinamicamente durante l'esecuzione dell'applicazione, consentendo una personalizzazione del comportamento senza la necessità di modificare il codice sorgente. Questo approccio favorisce la separazione delle responsabilità e promuove una maggiore adattabilità del sistema alle mutevoli esigenze del business \cite{fowler-rule-engine}.
+Non esiste una definizione consolidata di Rule Engine nel contesto della digitalizzazione dei giochi di carte e da tavolo. Tuttavia, nel contesto dello sviluppo software, un rule engine è un componente software che permette di separare la logica di business dall'implementazione tecnica di un'applicazione. Questo strumento consente di definire le regole di applicazione in un formato dichiarativo, rendendo la gestione della logica complessa del sistema più flessibile e manutenibile. Le regole, espresse in termini di condizioni e azioni, possono essere valutate dinamicamente durante l'esecuzione dell'applicazione, consentendo una personalizzazione del comportamento senza la necessità di modificare il codice sorgente. Questo approccio favorisce la separazione delle responsabilità e promuove una maggiore adattabilità del sistema alle mutevoli esigenze del business \cite{fowler-rule-engine}.
 Per i videogiochi tradizionali, l'attenzione è solitamente posta sul motore di gioco, che include il motore di rendering, il motore audio, il motore fisico, gli strumenti di intelligenza artificiale e altri middleware simili, come moduli di animazione, librerie 2D e 3D e strumenti di authoring. Tuttavia, nei giochi di carte e da tavolo, come \emph{Magic}, le regole del gioco sono estremamente importanti e richiedono un approccio diverso per gestire la logica del gioco.\linebreak
 
 Ecco alcuni elementi chiave di un rule engine:

@@ -1,1 +1,3 @@
 forge-scripts/cardsfolder/**
+/scripts
+/compiled-data

@@ -43,7 +43,7 @@
 
 \renewcommand{\lstlistingname}{Codice}
 
-\renewcommand{\listalgorithmname}{Elenco degli algoritmi}
+\renewcommand{\listalgorithmname}{Elenco dei blocchi di codice}
 
 % Blank page after title
 \let\origdoublepage\cleardoublepage
