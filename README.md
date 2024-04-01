@@ -1,4 +1,4 @@
-# Project Lunar - Rule Engine experiment
+# LLM to design Lunar: a domain-specific language for trading card games
 
 ## Abstract 
 This project explores the interaction between natural language and trading card games, focusing on Magic: The Gathering as a case study. The goal is to analyze how in these contexts it becomes important to have a well-structured and predictable natural language. The main contribution concerns the application of a Large Language Model to generate scripts for cards. Through this approach, the potential and limitations of advanced language models in the context of script generation using a domain-specific language were evaluated. Several experiments were performed and the best quantitative and qualitative results were obtained with a Small Language Model.
